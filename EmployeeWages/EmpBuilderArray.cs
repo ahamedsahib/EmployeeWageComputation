@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EmployeeWages
 {
-    class EmpBuilderArray
+    class EmpBuilderArray:IEmployeeWage
     {
         public const int fullTime = 1;
         public const int partTime = 2;
