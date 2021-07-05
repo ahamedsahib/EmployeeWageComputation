@@ -12,16 +12,21 @@ namespace EmployeeWages
 
         
         private ArrayList CompanyEmpWageArray;
+        private Dictionary<string, EmpWage> CompanyEmpBook;
 
         public EmpBuilderArray()
         {
             this.CompanyEmpWageArray=new ArrayList();
+            this.CompanyEmpBook = new Dictionary<string, EmpWage>();
+
         }
 
-        public void AddCompanyWage(string comp, int wagePerHour, int workingDaysPerMonth, int maxWorkingHours)
+        public void AddCompanyWage(string company, int wagePerHour, int workingDaysPerMonth, int maxWorkingHours)
         {
-            EmpWage empWage  = new EmpWage(comp, wagePerHour, workingDaysPerMonth, maxWorkingHours);
+            EmpWage empWage  = new EmpWage(company, wagePerHour, workingDaysPerMonth, maxWorkingHours);
             CompanyEmpWageArray.Add(empWage);
+            this.CompanyEmpBook.Add(company, empWage);
+
         }
         public void ComputeEmpWage()
         {
@@ -68,6 +73,10 @@ namespace EmployeeWages
             return total_hour * empWage.wage_per_hour;
             
         }
-        
+        public int GetTotalWage(string company)
+        {
+            return this.CompanyEmpBook[company].total_wage;
+        }
+
     }
 }
