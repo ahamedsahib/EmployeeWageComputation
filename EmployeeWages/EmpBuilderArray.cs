@@ -9,20 +9,30 @@ namespace EmployeeWages
         public const int fullTime = 1;
         public const int partTime = 2;
 
-        private string company;
-        private int wage_per_hour;
-        private int max_working_day;
-        private int max_working_hour;
-        private int total_wage;
+        private int noOfCompanies = 0;
+        private EmpWage[] CompanyEmpWageArray;
 
-        public EmpBuilderArray(string company, int wagePerHour, int workingDaysPerMonth, int maxWorkingHours)
+        public EmpBuilderArray()
         {
-            this.company = company;
-            this.wage_per_hour = wagePerHour;
-            this.max_working_day = workingDaysPerMonth;
-            this.max_working_hour = maxWorkingHours;
+            this.CompanyEmpWageArray = new EmpWage[5];
         }
-        public  void ComputeWage()
+
+        public void AddCompanyWage(string comp, int wagePerHour, int workingDaysPerMonth, int maxWorkingHours)
+        {
+            CompanyEmpWageArray[this.noOfCompanies] = new EmpWage(comp, wagePerHour, workingDaysPerMonth, maxWorkingHours);
+            noOfCompanies++;
+        }
+        public void ComputeEmpWage()
+        {
+            for (int i = 0; i < noOfCompanies; i++)
+            {
+                CompanyEmpWageArray[i].TotalEmpWage(this.ComputeWage(this.CompanyEmpWageArray[i]));
+                Console.WriteLine(this.CompanyEmpWageArray[i].toString());
+            }
+        }
+
+
+        private int  ComputeWage(EmpWage empWage)
         {
             //initalizing instance variables
             int working_hour;
@@ -30,7 +40,7 @@ namespace EmployeeWages
             int working_day = 0;
 
 
-            while (total_hour <= max_working_hour && working_day < max_working_day)
+            while (total_hour <= empWage.max_working_hour && working_day < empWage.max_working_day)
             {
 
                 Random random = new Random();
@@ -53,14 +63,9 @@ namespace EmployeeWages
 
             }
             //Compute total wage
-            total_wage = total_hour * wage_per_hour;
-            Console.WriteLine($"Working day of Employee {working_day - 1}\nTotal Working hours {total_hour}");
-            Console.WriteLine($"The Employee Wage of {company} per Month is {total_wage}");
-
+            return total_hour * empWage.wage_per_hour;
+            
         }
-        public string toString()
-        {
-            return $"Total EmpWage For company {this.company} is {this.total_wage}";
-        }
+        
     }
 }
